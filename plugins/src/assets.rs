@@ -17,17 +17,16 @@
 #[allow(unused_imports)]
 use crate::prelude::*;
 
-use common::web;
 use rocket::http::ContentType as CT;
 use rocket::response::content::*;
 
 type Bin = &'static [u8];
 
 #[get("/favicon.ico")]
-pub fn favicon() -> Content<Bin> { Content(CT::PNG, web::FAVICON) }
+pub fn favicon() -> Content<Bin> { Content(CT::PNG, assets::FAVICON) }
 
 #[get("/js")]
-pub fn js() -> JavaScript<Bin> { JavaScript(web::JS) }
+pub fn js() -> JavaScript<Bin> { JavaScript(assets::JS) }
 
 #[get("/css")]
-pub fn css() -> Css<Bin> { Css(web::CSS) }
+pub fn css() -> Css<Bin> { Css(assets::CSS) }

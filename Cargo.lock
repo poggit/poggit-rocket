@@ -172,6 +172,7 @@ dependencies = [
 name = "ci"
 version = "2.0.0"
 dependencies = [
+ "assets 2.0.0",
  "common 2.0.0",
  "rocket 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "rocket_contrib 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -190,7 +191,6 @@ dependencies = [
 name = "common"
 version = "2.0.0"
 dependencies = [
- "assets 2.0.0",
  "chrono 0.4.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "config 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "dotenv 0.14.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1056,6 +1056,7 @@ dependencies = [
 name = "plugins"
 version = "2.0.0"
 dependencies = [
+ "assets 2.0.0",
  "common 2.0.0",
  "rocket 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "rocket_contrib 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
