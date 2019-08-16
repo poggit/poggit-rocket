@@ -69,6 +69,20 @@ impl FromDataSimple for WebhookPayload {
             }
         };
 
+        use std::io::Read;
+        
+        let _result = match event {
+            "push" => WebhookPayload::Push(match serde_json::from_reader(&buf[..]) {
+                Ok(payload) => payload,
+                Err(_) => {
+                    return Outcome::Failure((Status::BadRequest, "Failed parsing input".into()));
+                }
+            }),
+            _ => {
+                return Outcome::Failure((Status::BadRequest, "Unknown X-GitHub-Event".into()));
+            }
+        };
+
         Outcome::Failure((Status::InternalServerError, "Not implemented yet".into()))
     }
 }

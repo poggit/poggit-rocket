@@ -26,10 +26,16 @@ use rocket::{post, routes};
 
 mod payload;
 mod prelude;
+mod push;
+mod result;
 
 #[post("/", data = "<payload>")]
-fn endpoint(payload: payload::WebhookPayload) -> String {
-    "Not implemented".into()
+fn endpoint(payload: WebhookPayload) -> String {
+    match payload {
+        WebhookPayload::Push(payload) => push::handle(payload),
+    };
+
+    "Received".into()
 }
 
 pub struct WebhookKey(hmac::VerificationKey);
