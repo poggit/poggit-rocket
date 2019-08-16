@@ -47,7 +47,6 @@ fn main() {
                 detail::version_download,
                 detail::version_download_md5,
                 detail::version_download_sha1,
-
                 assets::favicon,
                 assets::js,
                 assets::css,

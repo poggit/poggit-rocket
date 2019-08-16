@@ -23,10 +23,16 @@ use rocket::response::content::*;
 type Bin = &'static [u8];
 
 #[get("/favicon.ico")]
-pub fn favicon() -> Content<Bin> { Content(CT::PNG, assets::FAVICON) }
+pub fn favicon() -> Content<Bin> {
+    Content(CT::PNG, assets::FAVICON)
+}
 
 #[get("/js")]
-pub fn js() -> JavaScript<Bin> { JavaScript(assets::JS) }
+pub fn js() -> JavaScript<Bin> {
+    JavaScript(assets::JS)
+}
 
 #[get("/css")]
-pub fn css() -> Css<Bin> { Css(assets::CSS) }
+pub fn css() -> Css<Bin> {
+    Css(assets::CSS)
+}

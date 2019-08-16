@@ -70,7 +70,7 @@ impl FromDataSimple for WebhookPayload {
         };
 
         use std::io::Read;
-        
+
         let _result = match event {
             "push" => WebhookPayload::Push(match serde_json::from_reader(&buf[..]) {
                 Ok(payload) => payload,
