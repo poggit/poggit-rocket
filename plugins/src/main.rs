@@ -31,7 +31,9 @@ mod resources;
 
 fn main() {
     common::init();
-    let server = rocket::ignite()
+
+    let config = Config::new();
+    let server = rocket::custom(config.as_rocket_config(15001))
         .mount(
             "/",
             routes![
@@ -52,8 +54,8 @@ fn main() {
                 assets::css,
             ],
         )
-        .manage(Backend::new())
-        .manage(Config::new());
+        .manage(Backend::new(&config))
+        .manage(config);
     info!("Starting plugins server");
     let err = server.launch();
     panic!("{}", err);

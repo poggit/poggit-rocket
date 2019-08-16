@@ -1,4 +1,5 @@
 target
+key.epm
 .env
 *.gpg
 *.asc
@@ -15,3 +16,4 @@ node_modules
 *.css.map
 *.js
 *.js.map
+Rocket.toml

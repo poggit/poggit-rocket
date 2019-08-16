@@ -73,8 +73,8 @@ if [ .npm-install-time -ot package.json ]; then
 	touch .npm-install-time
 fi
 
-make-tree src ts "$OUT_DIR"/output.js && \
-	([ ! -d tsc ] || mkdir tsc) && \
+(make-tree src ts "$OUT_DIR"/output.js || make-tree package.json json "$OUT_DIR"/output.js) && \
+	([ -d tsc ] || mkdir tsc) && \
 	tsc --outDir tsc && \
 	browserify tsc/main.js > "$OUT_DIR"/output.fat.js && \
 	uglifyjs --compress --mangle -o "$OUT_DIR"/output.js -- "$OUT_DIR"/output.fat.js

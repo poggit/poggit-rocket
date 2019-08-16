@@ -44,7 +44,9 @@ fn main() {
     ))
     .expect("Database connection failed");
 
-    let server = rocket::ignite().mount("/", routes![]).manage(config);
+    let server = rocket::custom(config.as_rocket_config(15000))
+        .mount("/", routes![])
+        .manage(config);
     info!("Starting backend server");
     let err = server.launch();
     panic!("{}", err);

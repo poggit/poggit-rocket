@@ -51,9 +51,10 @@ impl WebhookKey {
 
 fn main() {
     common::init();
+
     let config = Config::new();
     let webhook_key = WebhookKey::new(&config);
-    let server = rocket::ignite()
+    let server = rocket::custom(config.as_rocket_config(15003))
         .mount("/", routes![endpoint,])
         .manage(config)
         .manage(webhook_key);

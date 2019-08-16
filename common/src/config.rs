@@ -17,13 +17,14 @@
 #[allow(unused_imports)]
 use crate::prelude::*;
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug)]
 pub struct Config {
     pub postgres: PostgresConfig,
     pub github: GithubConfig,
+    pub http: HttpConfig,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug)]
 pub struct PostgresConfig {
     pub host: String,
     pub user: String,
@@ -31,13 +32,13 @@ pub struct PostgresConfig {
     pub db: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug)]
 pub struct GithubConfig {
     pub app: GithubAppConfig,
     pub webhook: GithubWebhookConfig,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug)]
 pub struct GithubAppConfig {
     pub id: u32,
     pub slug: String,
@@ -45,9 +46,22 @@ pub struct GithubAppConfig {
     pub secret: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug)]
 pub struct GithubWebhookConfig {
     pub secret: String,
+}
+
+#[derive(Clone, Deserialize, Debug)]
+pub struct HttpConfig {
+    pub env: HttpEnv,
+    pub address: Option<String>,
+}
+
+#[derive(Clone, Deserialize, Debug)]
+pub enum HttpEnv {
+    Development,
+    Staging,
+    Production,
 }
 
 impl Config {
@@ -55,7 +69,27 @@ impl Config {
         let mut merger = ::config::Config::new();
         merger
             .merge(::config::Environment::new().separator("_"))
-            .expect("config error");
+            .expect("Config error");
         merger.try_into().expect("Config error")
+    }
+
+    pub fn as_rocket_config(&self, port: u16) -> rocket::Config {
+        use rocket::config::Environment as Env;
+        rocket::Config::build(match self.http.env {
+            HttpEnv::Development => Env::Development,
+            HttpEnv::Staging => Env::Staging,
+            HttpEnv::Production => Env::Production,
+        })
+        .address(
+            self.http
+                .address
+                .as_ref()
+                .map_or("0.0.0.0", |string| string.as_str()),
+        )
+        .port(port)
+        .workers(64)
+        .secret_key(base64::encode(&rand::random::<[u8; 32]>()))
+        .finalize()
+        .expect("Config error")
     }
 }

@@ -27,7 +27,7 @@ services:
       - ./.env:/main/.env
       - ./builder/Rocket.toml:/main/Rocket.toml
     ports:
-      - 8001:8000
+      - 15003:15003
     links:
       - backend:backend
   ci:
@@ -38,7 +38,7 @@ services:
       - ./ci/templates:/main/templates
       - ./ci/Rocket.toml:/main/Rocket.toml
     ports:
-      - 8002:8000
+      - 15002:15002
     links:
       - backend:backend
   plugins:
@@ -49,7 +49,7 @@ services:
       - ./plugins/templates:/main/templates
       - ./plugins/Rocket.toml:/main/Rocket.toml
     ports:
-      - 8003:8000
+      - 15001:15001
     links:
       - backend:backend
   proxy:
@@ -58,6 +58,6 @@ services:
       - ./target/debug/proxy:/main/main
       - ./.env:/main/.env
     ports:
-      - 8004:8000
+      - 15004:15004
     links:
       - backend:backend

@@ -32,7 +32,9 @@ mod user;
 
 fn main() {
     common::init();
-    let server = rocket::ignite()
+
+    let config = Config::new();
+    let server = rocket::custom(config.as_rocket_config(15002))
         .mount(
             "/",
             routes![
@@ -45,9 +47,8 @@ fn main() {
                 shield::branch,
             ],
         )
-        .attach(Template::fairing())
-        .manage(Backend::new())
-        .manage(Config::new());
+        .manage(Backend::new(&config))
+        .manage(config);
     info!("Starting CI server");
     let err = server.launch();
     panic!("{:?}", err);

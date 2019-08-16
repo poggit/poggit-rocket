@@ -17,10 +17,12 @@
 #[allow(unused_imports)]
 use crate::prelude::*;
 
+use crate::config::Config;
+
 pub struct Backend {}
 
 impl Backend {
-    pub fn new() -> Self {
+    pub fn new(config: &Config) -> Self {
         Self {}
     }
 }

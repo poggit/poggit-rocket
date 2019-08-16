@@ -19,6 +19,7 @@
 #[allow(unused_imports)]
 use crate::prelude::*;
 
+use common::config::Config;
 use rocket::request::{FromQuery, Query};
 use rocket::routes;
 
@@ -153,8 +154,9 @@ mod links {
 
 fn main() {
     common::init();
-    info!("Starting redirect server");
-    let err = rocket::ignite()
+
+    let config = Config::new();
+    let err = rocket::custom(config.as_rocket_config(15004))
         .mount(
             "/",
             routes![
